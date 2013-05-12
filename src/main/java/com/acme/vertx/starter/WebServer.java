@@ -1,4 +1,4 @@
-package com.acme.vertx.Example;
+package com.acme.vertx.starter;
 
 import org.vertx.java.core.Handler;
 import org.vertx.java.core.buffer.Buffer;
