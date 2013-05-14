@@ -16,15 +16,15 @@ rm.get('/tag/:theTag', function(req) {
 		// The webclient has returned a message!
 		items = JSON.parse(message).items;
 
-		out = '<html><h1>Results for ' + tag + '</h1>';
+		html = '<html><h1>Results for ' + tag + '</h1>';
 		for (var i = 0; i < items.length; i++) {
-			out += '<h3>' + items[i].title + '</h3>';
-			out += '<a href="' + items[i].link + '"><img src="' + items[i].media.m + '" /></a>';
-			out += items[i].description;
+			html += '<h3>' + items[i].title + '</h3>';
+			html += '<a href="' + items[i].link + '"><img src="' + items[i].media.m + '" /></a>';
+			html += items[i].description;
 		}
-		out += '</html>';
+		html += '</html>';
 
-		req.response.end(out);
+		req.response.end(html);
 	});
 });
 
@@ -33,4 +33,5 @@ rm.getWithRegEx('.*', function(req) {
 	req.response.end("ERROR: fill the tag");
 });
 
-vertx.createHttpServer().requestHandler(rm).listen(8080);
+// Start the server
+vertx.createHttpServer().requestHandler(rm).listen(8081);
