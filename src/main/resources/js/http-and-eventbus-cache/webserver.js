@@ -4,18 +4,31 @@ var container = require('container');
 var console = require('console');
 container.deployVerticle('webclient.js');
 
+cache_map = vertx.getMap('webclient_address.cache');
+
+
 // Create a route matcher for the HTTP server
 var rm = new vertx.RouteMatcher();
 
-// Extract the params from the uri
+// Handle the tag request
 rm.get('/tag/:theTag', function(req) {
-	tag = req.params().get('theTag');
+	var tag = req.params().get('theTag');
 	console.log("Looking for: " + tag);
-
+	var html = cache_map.get(tag);
+	
+	// Lookup the cache first
+	if(html != null){
+		console.log("cache hit");
+		req.response.end(html);
+		return;
+	}
+	
+	console.log("cache miss");
+	
 	eb.send('webclient_address', tag, function(message) {
 		// The webclient has returned a message!
-		var items = JSON.parse(message).items;
-
+		items = JSON.parse(message).items;
+		
 		var html = '<html><h1>Results for ' + tag + '</h1>';
 		for (var i = 0; i < items.length; i++) {
 			html += '<h3>' + items[i].title + '</h3>';
@@ -23,9 +36,12 @@ rm.get('/tag/:theTag', function(req) {
 			html += items[i].description;
 		}
 		html += '</html>';
-
+		
+		// Cache the html for the next request
+		cache_map.put(tag, html);
 		req.response.end(html);
 	});
+	
 });
 
 // Default route responds with an error message
