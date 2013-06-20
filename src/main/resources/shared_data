@@ -1,0 +1,8 @@
+Let's go big: we want to scale out and use all the horse power of our new quad core server.
+vertx run webserver.js -instances 2
+This command will deploy two instances of webserver.js which autonomously will deploy also two instances of webclient.js.
+That's a total of four verticles. Now, generally a quad core processor comes with multithreading, so you could have even better parallelism doubling the numbers, but you got the concept.
+
+Note that these verticles are standalone independent services, so whenever a webserver sends a message to "webclient_address" any of the webclient instances can respond. 
+This is true also when you have a cluster: two different machines, running vert.x in cluster mode might find their eventbus messages answered by remote verticles.
+Let's try this right away. W 
