@@ -1,14 +1,14 @@
-var eb = require("event_bus");
-var console = require("console");
-var http = require("http");
-var shared_data = require("shared_data");
+var console = require('vertx/console');
+var vertx = require('vertx');
+var eb = vertx.eventBus;
+var shared_data = vertx.sharedData;
 
 // Shared map for caching
 cache_map = shared_data.getMap('webclient_address.cache');
 
 console.log('Webclient deployed!');
 
-var httpc = http.createHttpClient().host('ycpi-api.flickr.com').port('80');
+var httpc = vertx.createHttpClient().host('ycpi-api.flickr.com').port('80');
 
 eb.registerLocalHandler('webclient_address', function(message, replier) {
 	console.log('Received: ' + message);
