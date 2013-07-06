@@ -1,7 +1,7 @@
 var vertx = require('vertx');
 var container = require('vertx/container');
 
-container.deployVerticle('webclient.js');
+container.deployVerticle('webclient.js', null, 1);
 
 var server = vertx.createHttpServer();
 
