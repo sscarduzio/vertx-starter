@@ -1,5 +1,5 @@
 var vertx = require('vertx');
-var container = require('container');
+var container = require('vertx/container');
 
 container.deployVerticle('webclient.js');
 

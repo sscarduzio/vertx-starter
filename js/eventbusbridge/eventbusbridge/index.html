@@ -37,16 +37,20 @@
         });
     }
 </script>
-
-<div style="position:fixed;left:0;top:0;background-color:grey;width:100%;padding:1em;z-index:50">
+<style media="screen" type="text/css">
+  #container {position:fixed;left:0;top:0;background-color:grey;width:100%;padding:1em;z-index:50}
+  #status {position:absolute;right:1em;top:0;font-size:2em;font-family:sans-serif;color:red}
+  #content {position:absolute;padding:1em;margin-top:5em}
+</style>
+<div id="container">
   <form onsubmit="return false;">
     <input type="text" name="message" value="Kittenz"/>
     <input type="button" value="Search on eventbus" onclick="search(this.form.message.value)"/>
-    <span id="status" style="position:absolute;right:1em;top:0;font-size:2em;font-family:sans-serif;color:red">EVENT BUS DISCONNECTED</span>
+    <span id="status">EVENT BUS DISCONNECTED</span>
   </form>
 </div>
 
-<div id="content" style="position:absolute;padding:1em;margin-top:5em">Search something! <div>
+<div id="content">Search something! <div>
 
 </body>
 </html>
