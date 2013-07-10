@@ -12,6 +12,6 @@ server.requestHandler(function(req) {
 })
 
 // Initialize the SockJS bridge
-vertx.createSockJSServer(server).bridge({prefix: "/eventbus"}, [{address: 'webclient_address'}], [{}]);
+vertx.createSockJSServer(server).bridge({prefix: "/eventbus"}, [{address: 'webclient_address'}, {address: 'share_address'}], [{}]);
 
 server.listen(8080);
