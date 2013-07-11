@@ -1,4 +1,4 @@
-<html>
+  <html>
 <head>
   <title></title>
   <script src="http://cdn.sockjs.org/sockjs-0.3.4.min.js"></script>
@@ -13,19 +13,13 @@
     eb.onopen = function() {
         var status = document.getElementById("status");
         status.innerHTML = "EVENTBUS CONNECTED";
-        status.style.color="lime"
-
-      eb.registerHandler('share_address', function(obj){
-        var newImg = '<img alt="' + obj.tag + '" class="media shared" src="' + obj.url + '" />';
-        var iHtml = document.getElementById("share").innerHTML;
-        document.getElementById("share").innerHTML = newImg + iHtml;
-      });
+        status.style.color="#aacc00"
     };
 
     eb.onclose = function() {
         var status = document.getElementById("status");
         status.innerHTML = "EVENTBUS DISCONNECTED";
-        status.style.color = "red";
+        status.style.color = "white";
     };
 
     function search(tag){
@@ -36,55 +30,41 @@
         
         for (var i = 0; i < items.length; i++) {
           //html += '<h3>' + items[i].title + '</h3>';
-          html += '<img id="img_' + i + '" alt="' + tag + '" onClick="sharePic(' + i + ')" class="media" src="' + items[i].media.m + '" />';
+          html += '<a href="' + items[i].link + '"><img  alt="' + tag + '"  class="media" src="' + items[i].media.m + '" /></a>';
           //html += items[i].description;
         }
         document.getElementById("content").innerHTML = html ;
 
         });
     }
-
-    function sharePic(i){
-      var img = document.getElementById('img_' + i);
-      if(img === null){
-        alert("cannot share " + i);
-        return;
-      }
-      eb.publish('share_address', { tag: img.getAttribute('alt'), url: img.getAttribute('src') });
-    }
-    
-
 </script>
 
 <style media="screen" type="text/css">
   * {padding:0; margin:0;}
   body{background-color:#DDD;font-family:sans-serif}
   #top{position:fixed;padding:3px;z-index:50;display:block;float:left;}
-  #status{margin-left:3em;color:red}
-  #shared_title{position:fixed; top:-13px; right:100px;}
-  .framed{display:inline;background:#777;padding:0.3em;margin:10px;margin-left:1em;box-shadow: 0px 0px 10px #888888;-moz-border-radius:5px;border-radius:5px;font-size:1.1em;color:white;}
+  #status{margin-left:3em;color:white}
+  .framed{display:inline;background:#777;padding:1em;margin:10px;margin-left:1em;box-shadow:0px 0px 10px #888;-moz-border-radius:5px;border-radius:5px;font-size:1.1em;color:#aacc00;}
   #mid{padding:1em;padding-top:4em;}
   form{padding:0.5em;}
-  #content{ width:70%;float:left;height:100%;}
-  #share{position:fixed;width:28%;right:0;height:100%;overflow: auto}
-  .media {border:20px solid white; width:24%;margin:10px;box-shadow: 0px 0px 10px #888888;}
-  .shared{border:20px solid #F55; width:70%}
+  #content{float:left;height:100%;}
+  .media {border:20px solid white;margin:10px;box-shadow:0px 0px 10px #888;}
+  input { border:0;margin:5px;padding:5px;}
+  #searchButton {color:#333;background:#aacc00;cursor:pointer;}
+    #searchButton:hover {background:#aadd00;}
+    #searchButton:active {background:#aaee00; }
 </style>
 
 <div id="top">
   <form class="framed" onsubmit="return false;">
     <input type="text" name="message" value="cats"/>
-    <input type="button" value="Search" onclick="search(this.form.message.value)"/>
+    <input type="submit" id="searchButton" value="Search" onclick="search(this.form.message.value)"/>
   </form>
   <span id="status" class="framed">EVENT BUS DISCONNECTED</span>
-
 </div>
-<div id="mid">
-  <span id="shared_title" class="framed">Shared pictures</span>
-  <div id="share">
+  <div id="mid">
+    <div id="content">Search something!<div>
+    <div style="clear:both"/> 
   </div>
-  <div id="content">Search something!<div>
-<div style="clear:both"/> 
-</div>
 </body>
 </html>
