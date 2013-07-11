@@ -1,4 +1,4 @@
-<html>
+  <html>
 <head>
   <title></title>
   <script src="http://cdn.sockjs.org/sockjs-0.3.4.min.js"></script>
@@ -6,31 +6,32 @@
 </head>
 <body>
   <script>
+    var server = 'http://' + window.location.hostname + ':' + window.location.port + '/eventbus';
 
-    var  eb = new vertx.EventBus("http://localhost:8080/eventbus");
+    var  eb = new vertx.EventBus(server);
 
     eb.onopen = function() {
         var status = document.getElementById("status");
         status.innerHTML = "EVENTBUS CONNECTED";
-        status.style.color="lime"
+        status.style.color="#aacc00"
     };
 
     eb.onclose = function() {
         var status = document.getElementById("status");
         status.innerHTML = "EVENTBUS DISCONNECTED";
-        status.style.color = "red";
+        status.style.color = "white";
     };
 
     function search(tag){
       eb.send('webclient_address', tag, function(msg, replyTo) {
         var data = JSON.parse(msg)
         var items = data.items;
-        var html = '<h1>Results</h1>';
+        var html = '<h1>Share the best pictures with other browsers!</h1>';
         
         for (var i = 0; i < items.length; i++) {
-          html += '<h3>' + items[i].title + '</h3>';
-          html += '<a href="' + items[i].link + '"><img src="' + items[i].media.m + '" /></a>';
-          html += items[i].description;
+          //html += '<h3>' + items[i].title + '</h3>';
+          html += '<a href="' + items[i].link + '"><img  alt="' + tag + '"  class="media" src="' + items[i].media.m + '" /></a>';
+          //html += items[i].description;
         }
         document.getElementById("content").innerHTML = html ;
 
@@ -39,20 +40,31 @@
 </script>
 
 <style media="screen" type="text/css">
-  #container {position:fixed;left:0;top:0;background-color:grey;width:100%;padding:1em;z-index:50}
-  #status {position:absolute;right:1em;top:0;font-size:2em;font-family:sans-serif;color:red}
-  #content {position:absolute;padding:1em;margin-top:5em}
+  * {padding:0; margin:0;}
+  body{background-color:#DDD;font-family:sans-serif}
+  #top{position:fixed;padding:3px;z-index:50;display:block;float:left;}
+  #status{margin-left:3em;color:white}
+  .framed{display:inline;background:#777;padding:1em;margin:10px;margin-left:1em;box-shadow:0px 0px 10px #888;-moz-border-radius:5px;border-radius:5px;font-size:1.1em;color:#aacc00;}
+  #mid{padding:1em;padding-top:4em;}
+  form{padding:0.5em;}
+  #content{float:left;height:100%;}
+  .media {border:20px solid white;margin:10px;box-shadow:0px 0px 10px #888;}
+  input { border:0;margin:5px;padding:5px;}
+  #searchButton {color:#333;background:#aacc00;cursor:pointer;}
+    #searchButton:hover {background:#aadd00;}
+    #searchButton:active {background:#aaee00; }
 </style>
 
-<div id="container">
-  <form onsubmit="return false;">
-    <input type="text" name="message" value="Kittenz"/>
-    <input type="button" value="Search on eventbus" onclick="search(this.form.message.value)"/>
-    <span id="status">EVENT BUS DISCONNECTED</span>
+<div id="top">
+  <form class="framed" onsubmit="return false;">
+    <input type="text" name="message" value="cats"/>
+    <input type="submit" id="searchButton" value="Search" onclick="search(this.form.message.value)"/>
   </form>
+  <span id="status" class="framed">EVENT BUS DISCONNECTED</span>
 </div>
-
-<div id="content">Search something! <div>
-
+  <div id="mid">
+    <div id="content">Search something!<div>
+    <div style="clear:both"/> 
+  </div>
 </body>
 </html>
