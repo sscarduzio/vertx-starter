@@ -35,9 +35,7 @@
         var html = '<h1>Share the best pictures with other browsers!</h1>';
         
         for (var i = 0; i < items.length; i++) {
-          //html += '<h3>' + items[i].title + '</h3>';
           html += '<img id="img_' + i + '" alt="' + tag + '" onClick="sharePic(' + i + ')" class="media" src="' + items[i].media.m + '" />';
-          //html += items[i].description;
         }
         document.getElementById("content").innerHTML = html ;
 
