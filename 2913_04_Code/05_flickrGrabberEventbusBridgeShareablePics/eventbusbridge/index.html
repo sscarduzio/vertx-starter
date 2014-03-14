@@ -30,6 +30,7 @@
 
     function search(tag){
       eb.send('webclient_address', tag, function(msg, replyTo) {
+        alert(msg);
         var data = JSON.parse(msg)
         var items = data.items;
         var html = '<h1>Share the best pictures with other browsers!</h1>';
